@@ -1,0 +1,124 @@
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  height: 100%; /* Ensure the body spans full height */
+  overflow-x: hidden; /* Prevent horizontal scroll */
+  font-family: 'UNSII', sans-serif;
+}
+
+.home-container {
+  width: 100%;
+  min-height: 100vh; /* Full viewport height */
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden; /* Prevent horizontal scroll */
+}
+
+.navbar {
+  background-color: #333;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  height: 10vh; /* Navbar height */
+  width: 100%; /* Full width */
+  box-sizing: border-box;
+  position: relative;
+  z-index: 10;
+}
+
+/* Logo and Title */
+.logo-title {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  width: 2vw;
+  height: auto;
+  margin-right: 2vw; /* Corrected */
+}
+
+.title {
+  width: 5vw;
+  height: auto;
+  margin-left: 1vw;
+}
+
+.navbar h1 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: white;
+  font-family: 'UNSII', sans-serif;
+}
+
+/* Hamburger Icon */
+.hamburger {
+  font-size: 1.5rem;
+  color: white;
+  cursor: pointer;
+}
+
+/* Dropdown Menu */
+.menu-items {
+  display: none; /* Hidden by default */
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  width: 100%; /* Full width of navbar */
+  background-color: #333;
+
+  position: absolute;
+  top: 100%; /* Below navbar */
+  left: 0; /* Align with navbar */
+
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease-in-out;
+
+  font-family: 'UNSII', sans-serif;
+}
+
+.menu-items li {
+  text-align: right; /* Align items to the right */
+  padding: 15px 20px;
+}
+
+.menu-items li a {
+  color: white;
+  text-decoration: none;
+  font-size: 5rem;
+  display: block; /* Full row clickable */
+}
+
+.menu-items li a:hover {
+  background-color: #555;
+}
+
+.menu-items.open {
+  display: block;
+  max-height: 300px; /* Expand on open */
+}
+
+@font-face {
+  font-family: 'UNS';
+  src: url('./fonts/UNS.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'UNS';
+  src: url('./fonts/UNS.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
