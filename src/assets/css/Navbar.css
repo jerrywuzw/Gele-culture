@@ -11,7 +11,6 @@ body {
   padding: 0;
   height: 100%; /* Ensure the body spans full height */
   overflow-x: hidden; /* Prevent horizontal scroll */
-  font-family: 'UNSII', sans-serif;
 }
 
 .home-container {
@@ -57,7 +56,6 @@ body {
   font-size: 1.5rem;
   font-weight: bold;
   color: white;
-  font-family: 'UNSII', sans-serif;
 }
 
 /* Hamburger Icon */
@@ -84,8 +82,6 @@ body {
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.5s ease-in-out;
-
-  font-family: 'UNSII', sans-serif;
 }
 
 .menu-items li {
@@ -107,18 +103,4 @@ body {
 .menu-items.open {
   display: block;
   max-height: 300px; /* Expand on open */
-}
-
-@font-face {
-  font-family: 'UNS';
-  src: url('./fonts/UNS.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'UNS';
-  src: url('./fonts/UNS.ttf') format('truetype');
-  font-weight: bold;
-  font-style: normal;
 }
