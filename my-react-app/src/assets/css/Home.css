@@ -1,17 +1,90 @@
-/* Video Wrapper */
-.video-wrapper {
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
   width: 100%;
+  height: 100%;
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+}
+
+.home-container {
+  width: 100%;
+  overflow-x: hidden;
+  /* Add space for scrolling effect */
+}
+
+/* Lifestyle Image Section */
+.image-wrapper {
+  position: sticky; /* Sticky effect */
+  top: 0; /* Pins the image to the top of the viewport */
+  width: 100%;
+  height: 100vh; /* Full viewport height */
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden; /* Ensure no overflow */
+  z-index: 1;
+}
+
+.lifestyle-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensure it covers the container */
+}
+
+.content-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.4); /* Optional dark overlay */
+  z-index: 2;
+}
+
+.content-overlay h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.content-overlay p {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.content-overlay .more-info-link {
+  font-size: 1rem;
+  text-decoration: none;
+  color: #ff9800;
+  transition: color 0.3s ease;
+}
+
+.content-overlay .more-info-link:hover {
+  color: #ff5722;
+}
+
+/* Video Section */
+.video-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100vh; /* Full viewport height */
+  background-color: #000; /* Fallback background */
+  z-index: 2;
   overflow: hidden;
-  margin-bottom: 20px; /* Add spacing below the video */
 }
 
 .homepage-video {
   width: 100%;
-  height: auto;
-  max-height: 80vh; /* Adjust as needed */
-  object-fit: cover; /* Ensure it covers the container */
-  pointer-events: none; /* Prevent user interaction */
+  height: 100%;
+  object-fit: cover; /* Ensure the video fills the container */
 }

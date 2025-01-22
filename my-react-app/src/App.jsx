@@ -2,7 +2,6 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Home from './components/Home';
-import About from './components/About'; // Example additional component
 
 const App = () => {
   return (
@@ -11,7 +10,6 @@ const App = () => {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} /> {/* Example additional route */}
         </Routes>
       </div>
     </Router>

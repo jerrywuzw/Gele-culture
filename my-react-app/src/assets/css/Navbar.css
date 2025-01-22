@@ -9,15 +9,17 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  height: 100%; /* Ensure the body has a height base */
+  height: 100%; /* Ensure the body spans full height */
+  overflow-x: hidden; /* Prevent horizontal scroll */
   font-family: 'UNSII', sans-serif;
 }
 
 .home-container {
   width: 100%;
-  min-height: 100vh; /* Ensure the container spans full viewport height */
+  min-height: 100vh; /* Full viewport height */
   display: flex;
   flex-direction: column;
+  overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
 .navbar {
@@ -26,11 +28,11 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 0 20px;
+  height: 10vh; /* Navbar height */
+  width: 100%; /* Full width */
+  box-sizing: border-box;
   position: relative;
   z-index: 10;
-
-  /* Set height to 5vh */
-  height: 10vh;
 }
 
 /* Logo and Title */
@@ -40,15 +42,15 @@ body {
 }
 
 .logo {
-  width: 2vw; /* Adjust size relative to viewport width */
+  width: 2vw;
   height: auto;
-  margin-right: 2w;
+  margin-right: 2vw; /* Corrected */
 }
 
 .title {
-    width: 5vw;
-    height: auto;
-    margin-left: 1vw;
+  width: 5vw;
+  height: auto;
+  margin-left: 1vw;
 }
 
 .navbar h1 {
@@ -72,16 +74,13 @@ body {
   margin: 0;
   padding: 0;
 
-  /* Dropdown should span the full width of the navbar */
-  width: 100%;
+  width: 100%; /* Full width of navbar */
   background-color: #333;
 
-  /* Position below the navbar */
   position: absolute;
-  top: 100%; /* Align directly below the navbar */
-  left: 0; /* Align with the navbar's left edge */
+  top: 100%; /* Below navbar */
+  left: 0; /* Align with navbar */
 
-  /* For smooth dropdown animation */
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.5s ease-in-out;
@@ -90,7 +89,7 @@ body {
 }
 
 .menu-items li {
-  text-align: right; /* Align text to the right */
+  text-align: right; /* Align items to the right */
   padding: 15px 20px;
 }
 
@@ -98,30 +97,28 @@ body {
   color: white;
   text-decoration: none;
   font-size: 5rem;
-  display: block; /* Make the entire row clickable */
+  display: block; /* Full row clickable */
 }
 
 .menu-items li a:hover {
   background-color: #555;
 }
 
-/* When Dropdown is Open */
 .menu-items.open {
   display: block;
-  max-height: 300px; /* Adjust to fit content */
+  max-height: 300px; /* Expand on open */
 }
 
 @font-face {
-    font-family: 'UNS';
-    src: url('./fonts/UNS.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-  }
-  
-  @font-face {
-    font-family: 'UNS';
-    src: url('./fonts/UNS.ttf') format('truetype');
-    font-weight: bold;
-    font-style: normal;
-  }
-  
+  font-family: 'UNS';
+  src: url('./fonts/UNS.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'UNS';
+  src: url('./fonts/UNS.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}

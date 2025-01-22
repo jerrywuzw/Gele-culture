@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import './navbar.css';
-import geleLogo from './assets/Gele-logo.png';
-import geleTitle from './assets/Gele-title.png';
+import '../assets/css/navbar.css';
+import geleLogo from '../assets/Gele-logo.png';
+import geleTitle from '../assets/Gele-title.png';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
