@@ -1,0 +1,17 @@
+/* Video Wrapper */
+.video-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  margin-bottom: 20px; /* Add spacing below the video */
+}
+
+.homepage-video {
+  width: 100%;
+  height: auto;
+  max-height: 80vh; /* Adjust as needed */
+  object-fit: cover; /* Ensure it covers the container */
+  pointer-events: none; /* Prevent user interaction */
+}
