@@ -1,10 +1,17 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
+import { createHtmlPlugin } from 'vite-plugin-html';
 
 export default defineConfig({
-  base: '/Gele-culture/', // Set the correct base for GitHub Pages
-  plugins: [react()],
-  build: {
-    assetsInlineLimit: 0,
-  },
+  base: '/Gele-culture/',
+  plugins: [
+    react(),
+    createHtmlPlugin({
+      inject: {
+        injectData: {
+          title: 'Gele.Culture',
+        },
+      },
+    }),
+  ],
 });
