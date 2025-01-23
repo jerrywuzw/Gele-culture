@@ -6,7 +6,7 @@ import Home from './components/Home';
 
 const App = () => {
   return (
-    <Router basename="/Gele-culture">
+    <Router basename="/">
       <div className="app-container">
         <Navbar />
         <Routes>
