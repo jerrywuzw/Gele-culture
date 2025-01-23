@@ -1,8 +1,9 @@
 // src/components/Home.jsx
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import '../assets/css/home.css';
-import videoSrc from '../assets/videos/logoSpin.mp4'; // Ensure this path is correct
+import homepageVideo from '../assets/videos/Homepage-video.mp4'; // Imported video
+import videoSrc from '../assets/videos/logoSpin.mp4'; // Existing video for Section 2
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -10,14 +11,26 @@ gsap.registerPlugin(ScrollTrigger);
 
 function Home() {
   const sectionsRef = useRef([]);
+  const [activeSection, setActiveSection] = useState(0);
+  const progressBarRef = useRef(null);
 
   useEffect(() => {
-    sectionsRef.current.forEach((section) => {
-      if (!section) return;
+    const sections = sectionsRef.current;
 
+    // Create ScrollTriggers for each section to detect active section
+    sections.forEach((section, index) => {
+      ScrollTrigger.create({
+        trigger: section,
+        start: 'top 50%',
+        end: 'bottom 50%',
+        onEnter: () => setActiveSection(index),
+        onEnterBack: () => setActiveSection(index),
+        // markers: true, // Enable for debugging
+      });
+
+      // Animate content within each section
       const content = section.querySelector('.content');
 
-      // Animate content: fade in and slide up
       gsap.fromTo(
         content,
         { opacity: 0, y: 50 },
@@ -28,66 +41,72 @@ function Home() {
           ease: 'power2.out',
           scrollTrigger: {
             trigger: section,
-            start: 'top center',
+            start: 'top 80%',
             toggleActions: 'play none none reverse',
-            markers: true, // Enable for debugging
+            // markers: true, // Enable for debugging
           },
         }
       );
-
-      // Pin the section during its scroll duration
-      ScrollTrigger.create({
-        trigger: section,
-        start: 'top top',
-        end: 'bottom top',
-        pin: true,
-        pinSpacing: false,
-        scrub: true,
-        markers: true, // Enable for debugging
-      });
     });
 
     // Cleanup ScrollTriggers on unmount
     return () => {
-      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+      ScrollTrigger.killAll();
     };
   }, []);
 
   useEffect(() => {
-    const progressBar = document.getElementById('progress-bar');
-
-    const updateProgress = () => {
+    const handleScroll = () => {
       const scrollTop = window.pageYOffset;
       const docHeight = document.body.scrollHeight - window.innerHeight;
       const scrolled = (scrollTop / docHeight) * 100;
-      progressBar.style.width = `${scrolled}%`;
+      if (progressBarRef.current) {
+        progressBarRef.current.style.width = `${scrolled}%`;
+      }
     };
 
-    window.addEventListener('scroll', updateProgress);
+    window.addEventListener('scroll', handleScroll);
 
     return () => {
-      window.removeEventListener('scroll', updateProgress);
+      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
+  // Scroll to section when indicator is clicked
+  const scrollToSection = (index) => {
+    sectionsRef.current[index].scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <div className="home-page">
-      
+
       {/* Scroll Progress Bar */}
       <div className="scroll-progress">
-        <div className="progress-bar" id="progress-bar"></div>
+        <div className="progress-bar" ref={progressBarRef}></div>
       </div>
-      
+
+
       {/* Section 1 */}
       <section
         ref={(el) => (sectionsRef.current[0] = el)}
         id="section1"
         className="home-section section1"
       >
-        <div className="content">
-          <h1>Is 他妈的</h1>
-          <h2>Lifestyle</h2>
-        </div>
+        {/* Background Video */}
+        <video
+          className="background-video"
+          src={homepageVideo}
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
+        ></video>
+
+        {/* Overlay for better text readability */}
+        <div className="video-overlay"></div>
+
+        {/* Content */}
       </section>
 
       {/* Section 2 - Video Section */}
@@ -97,7 +116,7 @@ function Home() {
         className="home-section section2"
       >
         <div className="content">
-          <video 
+          <video
             className="homepage-video"
             autoPlay
             loop

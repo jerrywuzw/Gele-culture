@@ -63,6 +63,7 @@ body {
 
 /* DROPDOWN MENU */
 .menu-items {
+ 
   list-style: none;
   display: flex;
   gap: 0.5rem;
