@@ -14,13 +14,19 @@ gsap.registerPlugin(ScrollToPlugin, ScrollTrigger);
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('section1');
-
+  const [isNavbarHidden, setIsNavbarHidden] = useState(false);
   const navbarRef = useRef(null);
   const prevScrollPos = useRef(window.pageYOffset);
+  const menuRef = useRef(null);
   const translateY = useRef(0); // Current translateY value
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+  const handleClickOutside = (event) => {
+    if (menuRef.current && !menuRef.current.contains(event.target)) {
+      setIsMenuOpen(false);
+    }
   };
 
   // Define handleScroll using useCallback outside useEffect
@@ -30,26 +36,28 @@ const Navbar = () => {
       const delta = currentScrollPos - prevScrollPos.current;
       prevScrollPos.current = currentScrollPos;
 
-      if (navbarRef.current) {
-        const navbarHeight = navbarRef.current.offsetHeight;
+      // Debugging: Log scroll position and delta
+      console.log(`Scroll Position: ${currentScrollPos}, Delta: ${delta}`);
 
-        // Update translateY based on scroll direction and delta
-        if (delta > 0) {
-          // Scrolling down
-          translateY.current = Math.min(translateY.current + delta, navbarHeight);
-          if (isMenuOpen) {
-            setIsMenuOpen(false); // Close the menu when scrolling down
-          }
-        } else {
-          // Scrolling up
-          translateY.current = Math.max(translateY.current + delta, 0);
+      if (delta > 0 && currentScrollPos > 100) {
+        // Scrolling down and scrolled more than 100px
+        if (!isNavbarHidden) {
+          console.log('Hiding Navbar');
+          setIsNavbarHidden(true);
         }
-
-        // Apply the transform
-        navbarRef.current.style.transform = `translateY(-${translateY.current}px)`;
+        if (isMenuOpen) {
+          console.log('Closing menu due to scroll down');
+          setIsMenuOpen(false);
+        }
+      } else if (delta < 0) {
+        // Scrolling up
+        if (isNavbarHidden) {
+          console.log('Showing Navbar');
+          setIsNavbarHidden(false);
+        }
       }
     }, 100),
-    [isMenuOpen]
+    [isNavbarHidden, isMenuOpen]
   );
 
   useEffect(() => {
@@ -86,8 +94,22 @@ const Navbar = () => {
     setIsMenuOpen(false); // Close menu after clicking
   };
 
+  useEffect(() => {
+
+    if (isMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isMenuOpen]);
+
+
   return (
-    <nav className="navbar" ref={navbarRef}>
+    <nav className={`navbar ${isNavbarHidden ? 'hidden' : ''}`} ref={navbarRef}>
       {/* Left: Logo and Title */}
       <div className="logo-title">
         <img src={geleLogo} alt="Gele Logo" className="logo" />

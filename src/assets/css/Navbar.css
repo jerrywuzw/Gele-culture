@@ -30,6 +30,11 @@ body {
   top: 0;
   left: 0;
   z-index: 1000; /* Ensure navbar stays above other content */
+  transition: transform 0.3s ease-in-out;
+}
+
+.navbar.hidden {
+  transform: translateY(-100%);
 }
 
 /* LOGO + TITLE WRAPPER */
@@ -55,7 +60,7 @@ body {
 
 /* HAMBURGER ICON */
 .hamburger {
-  display: none; /* Hidden by default, shown on mobile */
+  display: block; /* Hidden by default, shown on mobile */
   font-size: clamp(2rem, 5vw, 3rem);
   color: white;
   cursor: pointer;
@@ -67,13 +72,32 @@ body {
   list-style: none;
   display: flex;
   gap: 0.5rem;
+
+  max-height: 0;
+  top: 100%; /* Position below the navbar */
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out;
+  position: fixed;
+  top: 10vh; /* Position below the navbar */
+  right: 20px; /* Align to the right */
+  flex-direction: column; /* Stack vertically */
+  width: 100%;
+  background-color: #000;
+  z-index: 1001;
+}
+
+.menu-items.open {
+  max-height: 500px; /* Adjust based on number of menu items */
 }
 
 .menu-items li button {
+  width: 100%;
+  text-align: right;
   background: none;
   border: none;
   color: white;
-  font-size: 5rem;
+  font-size: clamp(2rem, 5vw, 20rem);
+  letter-spacing: 0.1rem;
   cursor: pointer;
   position: relative;
   padding: 0.5rem;
@@ -82,17 +106,17 @@ body {
 
 .menu-items li button:hover,
 .menu-items li button.active {
-  color: #f0a500; /* Highlight color */
+  color: #f0a500; 
 }
 
 .menu-items li button.active::after {
   content: '';
   position: absolute;
-  width: 100%;
+  width: 20%;
   height: 2px;
   background: #f0a500;
   bottom: -5px;
-  left: 0;
+  right: 0;
 }
 
 /* Responsive Design */
@@ -132,7 +156,7 @@ body {
   }
 
   .menu-items li button.active::after {
-    display: none; /* Remove underline on mobile */
+    display: none;
   }
 
   @font-face {

@@ -16,42 +16,48 @@ function Home() {
 
   useEffect(() => {
     const sections = sectionsRef.current;
+    const triggers = [];
 
-    // Create ScrollTriggers for each section to detect active section
+    // Create ScrollTriggers for each section and animate content
     sections.forEach((section, index) => {
-      ScrollTrigger.create({
-        trigger: section,
-        start: 'top 50%',
-        end: 'bottom 50%',
-        onEnter: () => setActiveSection(index),
-        onEnterBack: () => setActiveSection(index),
-        // markers: true, // Enable for debugging
-      });
+      if (section) {
+        // Set active section on scroll
+        const trigger = ScrollTrigger.create({
+          trigger: section,
+          start: 'top 50%',
+          end: 'bottom 50%',
+          onEnter: () => setActiveSection(index),
+          onEnterBack: () => setActiveSection(index),
+        });
+        triggers.push(trigger);
 
-      // Animate content within each section
-      const content = section.querySelector('.content');
-
-      gsap.fromTo(
-        content,
-        { opacity: 0, y: 50 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 1,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: section,
-            start: 'top 80%',
-            toggleActions: 'play none none reverse',
-            // markers: true, // Enable for debugging
-          },
+        // Animate the content inside the section
+        const content = section.querySelector('.content');
+        if (content) {
+          gsap.fromTo(
+            content,
+            { opacity: 0, y: 50 },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 1,
+              ease: 'power2.out',
+              scrollTrigger: {
+                trigger: section,
+                start: 'top 80%',
+                toggleActions: 'play none none reverse',
+              },
+            }
+          );
+        } else {
+          console.warn(`No .content found in section ${index}`);
         }
-      );
+      }
     });
 
     // Cleanup ScrollTriggers on unmount
     return () => {
-      ScrollTrigger.killAll();
+      triggers.forEach((trigger) => trigger.kill());
     };
   }, []);
 
@@ -74,7 +80,7 @@ function Home() {
 
   // Scroll to section when indicator is clicked
   const scrollToSection = (index) => {
-    sectionsRef.current[index].scrollIntoView({ behavior: 'smooth' });
+    sectionsRef.current[index]?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
@@ -84,7 +90,6 @@ function Home() {
       <div className="scroll-progress">
         <div className="progress-bar" ref={progressBarRef}></div>
       </div>
-
 
       {/* Section 1 */}
       <section
@@ -105,8 +110,6 @@ function Home() {
 
         {/* Overlay for better text readability */}
         <div className="video-overlay"></div>
-
-        {/* Content */}
       </section>
 
       {/* Section 2 - Video Section */}

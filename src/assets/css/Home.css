@@ -1,11 +1,13 @@
-/* src/assets/css/home.css */
+/* ===========================
+    Global Styles
+=========================== */
 
-/* 1. Global Box Sizing */
+/* 1. Box Sizing */
 *, *::before, *::after {
   box-sizing: border-box;
 }
 
-/* 2. Remove Default Margins and Padding */
+/* 2. Reset Margins, Padding, and Overflow */
 html, body {
   margin: 0;
   padding: 0;
@@ -20,7 +22,9 @@ html {
   scroll-behavior: smooth;
 }
 
-/* 4. Scroll Progress Bar Styling */
+/* ===========================
+    Scroll Progress Bar
+=========================== */
 .scroll-progress {
   position: fixed;
   top: 0;
@@ -38,7 +42,9 @@ html {
   transition: width 0.25s ease-out;
 }
 
-/* 5. Section Indicators */
+/* ===========================
+    Section Indicators
+=========================== */
 .section-indicators {
   position: fixed;
   right: 20px;
@@ -68,14 +74,17 @@ html {
   outline: 2px solid #fff;
 }
 
-/* 6. Home Page Container */
+/* ===========================
+    Home Page Container
+=========================== */
 .home-page {
   width: 100%;
-  /* No fixed height to allow natural scrolling */
   position: relative;
 }
 
-/* 7. Home Sections */
+/* ===========================
+    Home Sections
+=========================== */
 .home-section {
   position: relative;
   width: 100%;
@@ -84,9 +93,14 @@ html {
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  transition: transform 0.5s ease-in-out;
 }
 
-/* 8. Specific Section Styles */
+.home-section.active {
+  transform: scale(1.02); /* Slight zoom when active */
+}
+
+/* 1. Section Background Colors */
 .section1 {
   background-color: #1abc9c; /* Turquoise */
 }
@@ -103,18 +117,66 @@ html {
   background-color: #e74c3c; /* Red */
 }
 
-/* 9. Content Styling */
+/* ===========================
+    Content Styling
+=========================== */
 .home-section .content {
   text-align: center;
-  color: #fff; /* Ensure text is visible against backgrounds */
+  color: #fff;
   padding: 0 1rem;
-  max-width: 800px; /* Limit content width for better readability */
+  max-width: 800px;
   position: relative;
-  z-index: 2; /* Ensure content stays above the background */
+  z-index: 2;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
 }
 
-/* 10. Video Styling */
-.home-section.section2 .homepage-video {
+.home-section.active .content {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Headings */
+.home-section h1,
+.home-section h2 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+/* Paragraphs */
+.home-section p {
+  font-size: 1.5rem;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+
+/* ===========================
+    Video Styling
+=========================== */
+.background-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1; /* Below content */
+}
+
+.video-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3); /* Overlay for text readability */
+  z-index: 1;
+}
+
+.homepage-video {
   width: 80%;
   max-width: 600px;
   height: auto;
@@ -123,10 +185,12 @@ html {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
-/* 11. Filler Styling */
+/* ===========================
+    Filler Content
+=========================== */
 .filler {
-  height: 1000px; /* Adds additional scrollable space */
-  background: rgba(255, 255, 255, 0.1); /* Slight overlay to differentiate */
+  height: 1000px; /* Adds extra scrollable space */
+  background: rgba(255, 255, 255, 0.1); /* Slight overlay effect */
   padding: 2rem;
   display: flex;
   justify-content: center;
@@ -139,22 +203,9 @@ html {
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
-/* 12. Responsive Text Sizes */
-.home-section h1,
-.home-section h2 {
-  font-size: 3rem;
-  margin-bottom: 1rem;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
-}
-
-.home-section p {
-  font-size: 1.5rem;
-  max-width: 600px;
-  margin: 0 auto;
-  line-height: 1.5;
-}
-
-/* 13. Responsive Adjustments */
+/* ===========================
+    Responsive Adjustments
+=========================== */
 @media (max-width: 768px) {
   .home-section h1,
   .home-section h2 {
@@ -166,33 +217,13 @@ html {
     padding: 0 0.5rem;
   }
 
-  .home-section.section2 .homepage-video {
+  .homepage-video {
     width: 90%;
     max-width: 100%;
   }
 
   .filler {
-    height: 800px; /* Reduce height for smaller screens */
+    height: 800px;
     padding: 1rem;
   }
-}
-
-/* 14. Active Section Transitions */
-.home-section {
-  transition: transform 0.5s ease-in-out;
-}
-
-.home-section.active {
-  transform: scale(1.02); /* Slightly scale up when active */
-}
-
-.home-section .content {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-}
-
-.home-section.active .content {
-  opacity: 1;
-  transform: translateY(0);
 }
