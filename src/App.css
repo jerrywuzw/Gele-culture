@@ -6,6 +6,25 @@
   text-align: left; /* Adjust alignment as needed */
 }
 
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* 2. Remove Default Margins and Padding */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  font-family: BeiBan, sans-serif;
+}
+
+/* 3. Smooth Scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
 .logo {
   height: 6em;
   padding: 1.5em;

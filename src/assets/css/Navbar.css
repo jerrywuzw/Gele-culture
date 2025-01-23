@@ -1,4 +1,6 @@
-/* General Reset */
+/* src/assets/css/navbar.css */
+
+/* 1. General Reset */
 * {
   margin: 0;
   padding: 0;
@@ -13,94 +15,120 @@ body {
   overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
-.home-container {
-  width: 100%;
-  min-height: 100vh; /* Full viewport height */
-  display: flex;
-  flex-direction: column;
-  overflow-x: hidden; /* Prevent horizontal scroll */
-}
-
+/* NAVBAR */
 .navbar {
-  background-color: #333;
+  background-color: #000; /* Fully opaque black */
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; /* Space between logo and menu */
   align-items: center;
+
+  min-height: 10vh;
+  width: 100%;
   padding: 0 20px;
-  height: 10vh; /* Navbar height */
-  width: 100%; /* Full width */
   box-sizing: border-box;
-  position: relative;
-  z-index: 10;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000; /* Ensure navbar stays above other content */
+
+  transition: transform 0.3s ease-in-out; /* Smooth transition for sliding */
 }
 
-/* Logo and Title */
+/* LOGO + TITLE WRAPPER */
 .logo-title {
   display: flex;
   align-items: center;
+  gap: 1rem; /* Spacing between logo and title */
 }
 
+/* LOGO IMAGE */
 .logo {
-  width: 2vw;
-  height: auto;
-  margin-right: 2vw; /* Corrected */
-}
-
-.title {
-  width: 5vw;
-  height: auto;
+  height: clamp(6vh, 8vh, 10vh);
+  width: auto;
+  margin-right: 2vw;
   margin-left: 1vw;
 }
 
-.navbar h1 {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: white;
+/* TITLE IMAGE */
+.title {
+  height: clamp(3vh, 6vh, 8vh);
+  width: auto;
 }
 
-/* Hamburger Icon */
+/* HAMBURGER ICON */
 .hamburger {
-  font-size: 1.5rem;
+  display: none; /* Hidden by default, shown on mobile */
+  font-size: clamp(2rem, 5vw, 3rem);
   color: white;
   cursor: pointer;
 }
 
-/* Dropdown Menu */
+/* DROPDOWN MENU */
 .menu-items {
-  display: none; /* Hidden by default */
   list-style: none;
-  margin: 0;
-  padding: 0;
-
-  width: 100%; /* Full width of navbar */
-  background-color: #333;
-
-  position: absolute;
-  top: 100%; /* Below navbar */
-  left: 0; /* Align with navbar */
-
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.5s ease-in-out;
+  display: flex;
+  gap: 1.5rem;
 }
 
-.menu-items li {
-  text-align: right; /* Align items to the right */
-  padding: 15px 20px;
-}
-
-.menu-items li a {
+.menu-items li button {
+  background: none;
+  border: none;
   color: white;
-  text-decoration: none;
-  font-size: 5rem;
-  display: block; /* Full row clickable */
+  font-size: 1rem;
+  cursor: pointer;
+  position: relative;
+  padding: 0.5rem;
+  transition: color 0.3s ease;
 }
 
-.menu-items li a:hover {
-  background-color: #555;
+.menu-items li button:hover,
+.menu-items li button.active {
+  color: #f0a500; /* Highlight color */
 }
 
-.menu-items.open {
-  display: block;
-  max-height: 300px; /* Expand on open */
+.menu-items li button.active::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background: #f0a500;
+  bottom: -5px;
+  left: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  /* Show hamburger icon */
+  .hamburger {
+    display: block;
+  }
+
+  /* Hide menu items by default */
+  .menu-items {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    flex-direction: column;
+    width: 100%;
+    background-color: #000; /* Fully opaque black for mobile menu */
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out;
+  }
+
+  /* Show menu when open */
+  .menu-items.open {
+    max-height: 300px; /* Adjust as needed */
+  }
+
+  .menu-items li button {
+    width: 100%;
+    text-align: right; /* Align text to the right */
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+  }
+
+  .menu-items li button.active::after {
+    display: none; /* Remove underline on mobile */
+  }
 }
