@@ -102,19 +102,19 @@ html {
 
 /* 1. Section Background Colors */
 .section1 {
-  background-color: #1abc9c; /* Turquoise */
+  background-color: #000; /* Turquoise */
 }
 
 .section2 {
-  background-color: #3498db; /* Blue */
+  background-color: #000; /* Blue */
 }
 
 .section3 {
-  background-color: #9b59b6; /* Purple */
+  background-color: #000; /* Purple */
 }
 
 .section4 {
-  background-color: #e74c3c; /* Red */
+  background-color: #000; /* Red */
 }
 
 /* ===========================
