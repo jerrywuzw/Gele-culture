@@ -30,8 +30,6 @@ body {
   top: 0;
   left: 0;
   z-index: 1000; /* Ensure navbar stays above other content */
-
-  transition: transform 0.3s ease-in-out; /* Smooth transition for sliding */
 }
 
 /* LOGO + TITLE WRAPPER */
@@ -67,14 +65,14 @@ body {
 .menu-items {
   list-style: none;
   display: flex;
-  gap: 1.5rem;
+  gap: 0.5rem;
 }
 
 .menu-items li button {
   background: none;
   border: none;
   color: white;
-  font-size: 1rem;
+  font-size: 5rem;
   cursor: pointer;
   position: relative;
   padding: 0.5rem;
@@ -118,17 +116,28 @@ body {
 
   /* Show menu when open */
   .menu-items.open {
-    max-height: 300px; /* Adjust as needed */
+    max-height: 500px; /* Adjust as needed */
   }
 
   .menu-items li button {
     width: 100%;
     text-align: right; /* Align text to the right */
-    padding: 1rem 2rem;
-    font-size: 1.2rem;
+    padding: 1rem 1.2rem;
+    font-size: 4rem;
+    letter-spacing: 0.1rem;
+    margin-top: -1.8rem;
+    margin-bottom: -1rem;
+    font-family: Ascharge, Arial, sans-serif;
   }
 
   .menu-items li button.active::after {
     display: none; /* Remove underline on mobile */
+  }
+
+  @font-face {
+    font-family: 'Ascharge';
+    src: url('/fonts/Ascharge.otf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
   }
 }

@@ -1,12 +1,13 @@
 // src/components/Navbar.jsx
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import '../assets/css/navbar.css';
 import geleLogo from '../assets/Gele-logo.png';
 import geleTitle from '../assets/Gele-title.png';
 import { gsap } from 'gsap';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import throttle from 'lodash.throttle';
 
 gsap.registerPlugin(ScrollToPlugin, ScrollTrigger);
 
@@ -22,8 +23,9 @@ const Navbar = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  useEffect(() => {
-    const handleScroll = () => {
+  // Define handleScroll using useCallback outside useEffect
+  const handleScroll = useCallback(
+    throttle(() => {
       const currentScrollPos = window.pageYOffset;
       const delta = currentScrollPos - prevScrollPos.current;
       prevScrollPos.current = currentScrollPos;
@@ -35,6 +37,9 @@ const Navbar = () => {
         if (delta > 0) {
           // Scrolling down
           translateY.current = Math.min(translateY.current + delta, navbarHeight);
+          if (isMenuOpen) {
+            setIsMenuOpen(false); // Close the menu when scrolling down
+          }
         } else {
           // Scrolling up
           translateY.current = Math.max(translateY.current + delta, 0);
@@ -43,14 +48,18 @@ const Navbar = () => {
         // Apply the transform
         navbarRef.current.style.transform = `translateY(-${translateY.current}px)`;
       }
-    };
+    }, 100),
+    [isMenuOpen]
+  );
 
+  useEffect(() => {
     window.addEventListener('scroll', handleScroll);
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
+      handleScroll.cancel(); // Cancel any pending throttled calls
     };
-  }, []);
+  }, [handleScroll]);
 
   useEffect(() => {
     const sections = document.querySelectorAll('.home-section');
@@ -109,7 +118,7 @@ const Navbar = () => {
             className={activeSection === 'section1' ? 'active' : ''}
             onClick={() => scrollToSection('section1')}
           >
-            HOME
+            ENTRANCE
           </button>
         </li>
         <li>
@@ -117,7 +126,7 @@ const Navbar = () => {
             className={activeSection === 'section2' ? 'active' : ''}
             onClick={() => scrollToSection('section2')}
           >
-            VIDEO
+            AGENDA
           </button>
         </li>
         <li>
@@ -125,7 +134,7 @@ const Navbar = () => {
             className={activeSection === 'section3' ? 'active' : ''}
             onClick={() => scrollToSection('section3')}
           >
-            MORE
+            RHYTHM
           </button>
         </li>
         <li>
@@ -133,7 +142,7 @@ const Navbar = () => {
             className={activeSection === 'section4' ? 'active' : ''}
             onClick={() => scrollToSection('section4')}
           >
-            CONTACT
+            SOCIAL
           </button>
         </li>
       </ul>
