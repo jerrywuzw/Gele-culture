@@ -1,0 +1,74 @@
+/* src/assets/css/section.css */
+
+.section {
+    position: relative;
+    width: 100%;
+    height: 100vh; /* Full viewport height */
+    overflow: hidden;
+  }
+  
+  .section-media {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensure media covers the entire section */
+    z-index: 1;
+  }
+  
+  .section-overlay {
+    position: relative;
+    z-index: 2; /* Above the media */
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+    text-align: center;
+  }
+  
+  .section-content {
+    max-width: 800px;
+    color: #fff; /* Default text color */
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); /* Text shadow for better readability */
+  }
+  
+  .section-content h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+  
+  .section-content p {
+    font-size: 1.5rem;
+    line-height: 1.6;
+  }
+  
+  /* Specific Background Colors */
+  .section[style*="background-color: #000"] .section-content {
+    color: #fff; /* White text for black background */
+  }
+  
+  .section[style*="background-color: #f4f4f4"] .section-content {
+    color: #333; /* Dark text for light backgrounds */
+    text-shadow: 0 2px 4px rgba(255, 255, 255, 0.5); /* Light text shadow */
+  }
+  
+  .section[style*="background-color: #e2e2e2"] .section-content {
+    color: #333; /* Dark text for light backgrounds */
+    text-shadow: 0 2px 4px rgba(255, 255, 255, 0.5); /* Light text shadow */
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .section-content h1 {
+      font-size: 2.5rem;
+    }
+  
+    .section-content p {
+      font-size: 1.2rem;
+    }
+  }
+  

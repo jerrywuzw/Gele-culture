@@ -15,21 +15,16 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('section1');
   const [isNavbarHidden, setIsNavbarHidden] = useState(false);
+
   const navbarRef = useRef(null);
+  const menuRef = useRef(null); // Reference to the menu for click outside
   const prevScrollPos = useRef(window.pageYOffset);
-  const menuRef = useRef(null);
-  const translateY = useRef(0); // Current translateY value
 
   const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
-  const handleClickOutside = (event) => {
-    if (menuRef.current && !menuRef.current.contains(event.target)) {
-      setIsMenuOpen(false);
-    }
+    setIsMenuOpen((prev) => !prev);
   };
 
-  // Define handleScroll using useCallback outside useEffect
+  // Handle Scroll: Hide/Show Navbar and Close Menu on Scroll Down
   const handleScroll = useCallback(
     throttle(() => {
       const currentScrollPos = window.pageYOffset;
@@ -61,7 +56,7 @@ const Navbar = () => {
   );
 
   useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
@@ -69,8 +64,9 @@ const Navbar = () => {
     };
   }, [handleScroll]);
 
+  // ScrollTrigger to update activeSection based on scroll position
   useEffect(() => {
-    const sections = document.querySelectorAll('.home-section');
+    const sections = document.querySelectorAll('.section');
 
     sections.forEach((section) => {
       ScrollTrigger.create({
@@ -89,12 +85,24 @@ const Navbar = () => {
     };
   }, []);
 
+  // Function to scroll to a specific section
   const scrollToSection = (id) => {
     gsap.to(window, { duration: 1, scrollTo: `#${id}` });
     setIsMenuOpen(false); // Close menu after clicking
   };
 
+  // Close menu when clicking outside
   useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        menuRef.current &&
+        !menuRef.current.contains(event.target) &&
+        !navbarRef.current.contains(event.target)
+      ) {
+        console.log('Click outside detected. Closing menu.');
+        setIsMenuOpen(false);
+      }
+    };
 
     if (isMenuOpen) {
       document.addEventListener('mousedown', handleClickOutside);
@@ -107,40 +115,52 @@ const Navbar = () => {
     };
   }, [isMenuOpen]);
 
+  // Close menu when pressing Escape key
+  useEffect(() => {
+    const handleEscape = (event) => {
+      if (event.key === 'Escape') {
+        console.log('Escape key pressed. Closing menu.');
+        setIsMenuOpen(false);
+      }
+    };
+
+    if (isMenuOpen) {
+      document.addEventListener('keydown', handleEscape);
+    } else {
+      document.removeEventListener('keydown', handleEscape);
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+    };
+  }, [isMenuOpen]);
 
   return (
     <nav className={`navbar ${isNavbarHidden ? 'hidden' : ''}`} ref={navbarRef}>
-      {/* Left: Logo and Title */}
+      {/* LOGO + TITLE */}
       <div className="logo-title">
         <img src={geleLogo} alt="Gele Logo" className="logo" />
         <img src={geleTitle} alt="Gele Title" className="title" />
       </div>
 
-      {/* Right: Hamburger Icon */}
-      <div
+      {/* HAMBURGER ICON */}
+      <button
         className="hamburger"
         onClick={toggleMenu}
         aria-label={isMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
         aria-expanded={isMenuOpen}
-        role="button"
-        tabIndex={0}
-        onKeyPress={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            toggleMenu();
-          }
-        }}
       >
         ☰
-      </div>
+      </button>
 
-      {/* Dropdown Menu */}
-      <ul className={`menu-items ${isMenuOpen ? 'open' : ''}`}>
+      {/* DROPDOWN MENU */}
+      <ul className={`menu-items ${isMenuOpen ? 'open' : ''}`} ref={menuRef}>
         <li>
           <button
             className={activeSection === 'section1' ? 'active' : ''}
             onClick={() => scrollToSection('section1')}
           >
-            ENTRANCE
+            Home
           </button>
         </li>
         <li>
@@ -148,7 +168,7 @@ const Navbar = () => {
             className={activeSection === 'section2' ? 'active' : ''}
             onClick={() => scrollToSection('section2')}
           >
-            AGENDA
+            Agenda
           </button>
         </li>
         <li>
@@ -156,15 +176,7 @@ const Navbar = () => {
             className={activeSection === 'section3' ? 'active' : ''}
             onClick={() => scrollToSection('section3')}
           >
-            RHYTHM
-          </button>
-        </li>
-        <li>
-          <button
-            className={activeSection === 'section4' ? 'active' : ''}
-            onClick={() => scrollToSection('section4')}
-          >
-            SOCIAL
+            Contact
           </button>
         </li>
       </ul>

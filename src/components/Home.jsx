@@ -1,173 +1,79 @@
 // src/components/Home.jsx
 
-import React, { useEffect, useRef, useState } from 'react';
-import '../assets/css/home.css';
-import homepageVideo from '../assets/videos/Homepage-video.mp4'; // Imported video
-import videoSrc from '../assets/videos/logoSpin.mp4'; // Existing video for Section 2
+import React, { useEffect } from 'react';
+import Section from './Section';
+import '../assets/css/home.css'; // Import any additional CSS if needed
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-gsap.registerPlugin(ScrollTrigger);
+// Import your media assets
+import homepageVideo from '../assets/videos/Homepage-video.mp4';
+import logoSpinVideo from '../assets/videos/logoSpin.mp4';
 
 function Home() {
-  const sectionsRef = useRef([]);
-  const [activeSection, setActiveSection] = useState(0);
-  const progressBarRef = useRef(null);
+  const sectionsData = [
+    {
+      id: 'section1',
+      title: null,
+      content: null,
+      media: homepageVideo,
+      mediaType: 'video',
+      backgroundColor: '#000',
+      animationDirection: 'up',
+    },
+    {
+      id: 'section2',
+      title: null,
+      content: null,
+      media: logoSpinVideo,
+      mediaType: 'video',
+      backgroundColor: '#000',
+      animationDirection: 'left',
+    },
+    {
+      id: 'section3',
+      title: '', // No title for the plain black section
+      content: '', // No content
+      media: null, // No media
+      backgroundColor: '#000', // Black background
+      animationDirection: 'down',
+    },
+  ];
 
   useEffect(() => {
-    const sections = sectionsRef.current;
-    const triggers = [];
+    gsap.registerPlugin(ScrollTrigger);
 
-    // Create ScrollTriggers for each section and animate content
-    sections.forEach((section, index) => {
-      if (section) {
-        // Set active section on scroll
-        const trigger = ScrollTrigger.create({
-          trigger: section,
-          start: 'top 50%',
-          end: 'bottom 50%',
-          onEnter: () => setActiveSection(index),
-          onEnterBack: () => setActiveSection(index),
-        });
-        triggers.push(trigger);
-
-        // Animate the content inside the section
-        const content = section.querySelector('.content');
-        if (content) {
-          gsap.fromTo(
-            content,
-            { opacity: 0, y: 50 },
-            {
-              opacity: 1,
-              y: 0,
-              duration: 1,
-              ease: 'power2.out',
-              scrollTrigger: {
-                trigger: section,
-                start: 'top 80%',
-                toggleActions: 'play none none reverse',
-              },
-            }
-          );
-        } else {
-          console.warn(`No .content found in section ${index}`);
-        }
-      }
+    sectionsData.forEach((section) => {
+      ScrollTrigger.create({
+        trigger: `#${section.id}`,
+        start: 'top top',
+        end: '+=100%', // Pin for the duration of one viewport height
+        pin: true,
+        scrub: false, // Disable scrub to prevent linking animation progress to scrollbar
+        pinSpacing: false, // Remove spacing to allow next section to overlay smoothly
+        // markers: true, // Uncomment for debugging
+      });
     });
 
-    // Cleanup ScrollTriggers on unmount
     return () => {
-      triggers.forEach((trigger) => trigger.kill());
+      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
     };
-  }, []);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop = window.pageYOffset;
-      const docHeight = document.body.scrollHeight - window.innerHeight;
-      const scrolled = (scrollTop / docHeight) * 100;
-      if (progressBarRef.current) {
-        progressBarRef.current.style.width = `${scrolled}%`;
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
-
-  // Scroll to section when indicator is clicked
-  const scrollToSection = (index) => {
-    sectionsRef.current[index]?.scrollIntoView({ behavior: 'smooth' });
-  };
+  }, [sectionsData]);
 
   return (
     <div className="home-page">
-
-      {/* Scroll Progress Bar */}
-      <div className="scroll-progress">
-        <div className="progress-bar" ref={progressBarRef}></div>
-      </div>
-
-      {/* Section 1 */}
-      <section
-        ref={(el) => (sectionsRef.current[0] = el)}
-        id="section1"
-        className="home-section section1"
-      >
-        {/* Background Video */}
-        <video
-          className="background-video"
-          src={homepageVideo}
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="auto"
-        ></video>
-
-        {/* Overlay for better text readability */}
-        <div className="video-overlay"></div>
-      </section>
-
-      {/* Section 2 - Video Section */}
-      <section
-        ref={(el) => (sectionsRef.current[1] = el)}
-        id="section2"
-        className="home-section section2"
-      >
-        <div className="content">
-          <video
-            className="homepage-video"
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="none"
-          >
-            <source src={videoSrc} type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
-          <p className="video-description">This video scrolls over the background color.</p>
-        </div>
-      </section>
-
-      {/* Section 3 - More Stuff */}
-      <section
-        ref={(el) => (sectionsRef.current[2] = el)}
-        id="section3"
-        className="home-section section3"
-      >
-        <div className="content">
-          <h2>More Sections</h2>
-          <p>
-            Add as much content as you like. Each new section will scroll over the background color.
-          </p>
-          <div className="filler">
-            <p>Extra filler space to demonstrate scrolling...</p>
-          </div>
-        </div>
-      </section>
-
-      {/* Section 4 - Another Section */}
-      <section
-        ref={(el) => (sectionsRef.current[3] = el)}
-        id="section4"
-        className="home-section section4"
-      >
-        <div className="content">
-          <h2>Another Section</h2>
-          <p>
-            More content here. Continue adding sections as needed.
-          </p>
-          <div className="filler">
-            <p>More filler space to demonstrate scrolling...</p>
-          </div>
-        </div>
-      </section>
-
+      {sectionsData.map((section) => (
+        <Section
+          key={section.id}
+          id={section.id}
+          title={section.title}
+          content={section.content}
+          media={section.media}
+          mediaType={section.mediaType}
+          backgroundColor={section.backgroundColor}
+          animationDirection={section.animationDirection}
+        />
+      ))}
     </div>
   );
 }

@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/png" href="./Gele-html.png" />
-    <!-- Updated Meta Viewport Tag -->
+    <!-- Updated Meta Viewport Tag with viewport-fit=cover -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>Gele</title>
     
@@ -24,6 +24,14 @@
         padding-right: env(safe-area-inset-right);
         /* Allow natural scrolling */
         overflow-x: hidden; /* Prevent horizontal scroll */
+        /* Removed height and width to allow body to expand */
+        /* height: 100%; */
+        /* width: 100%; */
+      }
+      
+      /* Optional: Smooth scroll behavior */
+      html {
+        scroll-behavior: smooth;
       }
     </style>
   </head>
